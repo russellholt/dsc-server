@@ -1,0 +1,164 @@
+The meta URL
+May 24 1995 (in progress)
+
+Russell Holt
+Destiny Software Corporation
+internal rfc #1
+
+
+
+Discussion and Recount and other highly unfinished General Stuff;
+
+
+
+- Introduction and Definitions -
+
+"meta URL" refers to a URL which references a set of other URLs.  These
+other URLs reside in a table (or other data structure) internally in
+the server.  This table is a registry of URLs which have special
+data and actions associated with them.  Let's call this a "SURL" for
+Server-URL.  These SURLs have a simple language about them which is
+executed when they are requested, using a small set of pre-defined
+Actions such as database-query or send-email.  For example, a CGI
+SURL may map fields in an HTML form to fields in a database view and
+ask the server to perform a database insert.  In this case, the server
+has routines for database insert, CGI data manipulation, and everything
+that needs to be done.  As a result, the specification of a CGI process
+to handle the output of an HTML form is a matter of defining the fields
+to expect and the action type.  Thus, one could easily specify a form
+processor in literally minutes as opposed to several hours or days
+of writing a standalone C, Perl, or shell program.  It also
+significantly increases performance of the CGI processing itself - by
+not having to fork and exec a new process.  Flexibility is obviously
+decreased, and complex CGI applications should still be written as
+standalone applications.
+
+the metaURL increases the security of the system as a whole, if all
+URLs to a server are SURLs.  This is because data never leaves the
+server to the local file system, no scripts are executed, and the
+metaURL has much more local information about the URLs themselves
+from which to decide whether a given user should have access to them,
+or, to what degree should the user have access.  There will still be
+a moderate security increase if important CGI processes are implemented
+as SURLs.
+
+For the future, SURLs may be requests to an object database (or
+something similar) from which HTML elements composing a document are
+constructed - this eliminates all of the problems with HTML today
+including editors for markup languages, marching standards, link
+management, etc.  With the metaURL, we will be able to implement this
+much sooner than anyone else.
+
+The metaURL will allow easy access to SURL data with translation because
+there is more type information than filename extensions (ala MIME). 
+Each SURL has the ability to have one or more data filters attached to
+it.  The document you are reading now may be accessed via simple HTML
+translation (which might convert successive newlines into the HTML
+paragraph tag <p>, for example, or turn tab-separated values into an
+HTML3 table).  However, if this were a "sensitive" document (and I don't
+mean poetry) it might have an encryption filter attached.  The filter
+might depend on the user.  If a session manager is present, there might
+be pointers from the user session data to the specific SURLs which are
+"active" (whatever that means), where for a particular user the server
+would get the user's crypto-keys from the session manager (or maybe
+a user DB) to use with the filter referenced in the SURL or user
+session data.
+
+Even more, we might have forwarding SURLs which bounce the request
+to another HTTP server (or just have a forwarding address, which the
+server returns to the client).
+
+A SURL may just point to a regular old file.  The use of this
+may be to take advantage of the strong typing, data filters, and
+access control on a file-by-file basis.
+
+Finally, the metaURL may be referenced as a URL, in which case a
+contextually-comprehensive "table" of SURLs is given.  I'd imagine
+that a SURL may itself be a metaURL, which would define a hierarchical
+structure.  The top metaURL may itself be a SURL in another metaURL
+table, maybe on another server.
+
+- A Comment -
+
+	It is interesting to note that the metaURL is very much like
+	the file system of an operating system.  Each metaURL is
+	analogous to a directory; each SURL is analogous to a file;
+	each CGI SURL is analogous to an executable application
+	program.  The set of pre-defined actions available to CGI
+	SURLs are analogous to system calls of an OS.  It is a file
+	system in a way, a strongly-typed file system which
+	"understands" the purpose (or use) of the data and processes
+	which are defined there. Perhaps these are not direct
+	analogies, but they are close.
+
+- Specification -
+
+Ideally, SURLs are specified through a GUI. Maybe there is a CGI SURL
+that is used for adding new SURLs.  Perhaps "add SURL" is a predefined
+action available to other SURLs, given the appropriate access, so that
+one may use a Web browser to define new SURLs.  Perphaps there is special
+client software which configures the SURLs.  Again, this is
+all ideally done dynamically while the server is operating.  Any
+SURL specification that is done via a specification language may be
+contributing to the problem we are trying to solve, namely ease of
+operation, ease of configuration.  Any specification language which can
+do all of the above described things cannot be very simple.
+
+However, a specification language is still necessary even if only
+to enumerate all possiblities and describe exactly what is expected.
+
+- Storage and efficiency -
+
+Storage of the SURL data may be dynamic, where the SURL specification
+is loaded and parsed when it is needed, but this would be slow and
+inefficient.  Where are the specifications stored?  If there are
+400 SURLs, are they stored in 400 files or 1 file of 400 entries,
+which would have to be parsed for each SURL access...
+
+The SURL data may be stored in data structures (objects) in the metaURL,
+and while this would be fast, for a large number of URLs this could
+grow very large.  However, efficient designing of the data structures
+and making the size of the action definitions very small (like using
+bitmasks, making sure structures are memory aligned and structure
+members are in the right order, etc)  a fairly efficient and small
+structure can be designed, even for a large number of entries (we hope).
+
+The SURL data may be stored as C++ objects on disk, where they are
+loaded as needed, but again - where are they stored?  Maybe the *whole
+metaURL* is stored this way.
+
+If we make the metaURL hierarchical, then we probably should look at
+using some weirdo data structures like b*-trees and actually do some
+computer science stuff like algorithm analysis (big O stuff). Think
+Netscape does that?  Hahahahaa! Plus, we can wax theoretical about it
+when talking to academics and techies.
+
+- Specifics -
+
+For a CGI SURL, the SURL name is analogous to the name of a CGI
+program which would process the data.  CGI data comes to the server
+as Name/Value pairs.  But the browser may not send a Name if the
+Value is empty (some do; some don't).  For a database query, we need
+to map each expected Name to a field in a view in some database
+somewhere.  So we need to define the database and the view.  Perhaps
+each Value might be added to a unique view in a unique database,
+relative to the other Values.  (Should we allow this?  ==> complexity!)
+
+Let's say we want to enter names into a guest database.  We expect
+the following Names:  Last, First, Email, Favorite Color.
+Then we want the DB DeathGulch and the view Guests.
+
+We want the mapping:
+Last -> lastname
+First -> firstname
+Email -> email
+Favorite Color -> favoritecolor
+
+And the action is DBInsert.  So the CGI data would be parsed by the server,
+and each Name would be matched against the list of expected Names, and
+the repective Value would then be used for that Name.
+
+
+--
+This message will self-destruct...
+

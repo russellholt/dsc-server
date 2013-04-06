@@ -1,1 +1,29 @@
-Notes on version 0.5 of the Destiny web server and classes---------------------------------------------------------------------------*	Version 0.5 incorporates stronger access control mechanisms - unlimited	number of Host, IP, and user/password authentication per SURL.*	Resources are now real classes.  httpResHandler now uses instantiated	resources instead of internal routines for things like directory	indexing, cgi data decoding.*	Singly linked lists are implemented from a single template class,	SLList, instead of having multiple individual list classes.  Now there	is SLList<String> instead of StringSLList.*	CGI resource class and "factory" harness for creating custom external	cgi applications by assembling desired resources.*	CGI-redirect: The output of external CGI processes is now connected	to the server via a pipe instead of directly to the socket.  The	server looks for the "Location: " directive on the first line from	the CGI process.  If it exists, the requested URL is accessed as if	it had been the one originally requested.  Note that this new URL	may potentially may be another cgi request, and this could continue	indefinitely!  Note also that the new URL must reside on the server,	otherwise a not-found error is returned, and there is no way to tell	on the user end *which* was not found: the CGI script, or the returned	URL it redirected the server to.
+Notes on version 0.5 of the Destiny web server and classes
+---------------------------------------------------------------------------
+
+*	Version 0.5 incorporates stronger access control mechanisms - unlimited
+	number of Host, IP, and user/password authentication per SURL.
+
+*	Resources are now real classes.  httpResHandler now uses instantiated
+	resources instead of internal routines for things like directory
+	indexing, cgi data decoding.
+
+*	Singly linked lists are implemented from a single template class,
+	SLList, instead of having multiple individual list classes.  Now there
+	is SLList<String> instead of StringSLList.
+
+*	CGI resource class and "factory" harness for creating custom external
+	cgi applications by assembling desired resources.
+
+*	CGI-redirect: The output of external CGI processes is now connected
+	to the server via a pipe instead of directly to the socket.  The
+	server looks for the "Location: " directive on the first line from
+	the CGI process.  If it exists, the requested URL is accessed as if
+	it had been the one originally requested.  Note that this new URL
+	may potentially may be another cgi request, and this could continue
+	indefinitely!  Note also that the new URL must reside on the server,
+	otherwise a not-found error is returned, and there is no way to tell
+	on the user end *which* was not found: the CGI script, or the returned
+	URL it redirected the server to.
+
+

@@ -13,3 +13,6 @@ Foundation (RSL 2).
 
 but it's here because I wrote it. FYI.
 
+## License
+
+This is free and unencumbered software released into the public domain. See the file UNLICENSE

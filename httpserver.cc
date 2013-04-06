@@ -8,7 +8,6 @@
 //
 // $Id: httpserver.cc,v 1.4 1995/10/26 18:20:14 holtrf Exp holtrf $
 //
-// Copyright 1995 by Destiny Software Corporation.
 
 
 #include "httpserver.h"

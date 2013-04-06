@@ -7,7 +7,6 @@
 // HISTORY: 
 //
 // $Id$
-// Copyright 1995 by Destiny Software Corporation.
 
 
 #include "httprequest.h"

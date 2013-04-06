@@ -9,7 +9,7 @@ The purpose of this was to make writing cgi programs easier by providing better 
 structure.  The cgi abstraction I called "SURL" (for 'server url') described and implemented here
 was never completed in this server because it quickly evolved into a full blown programming language
 and application server in the subsequenst projects RSL and Granite Foundation (RSL 2). There, it
-interacted with other web servers instead.
+interacted with other web servers instead. See metaURL.txt.
 
 ## this is old junk
 

@@ -9,3 +9,7 @@ structure.  The cgi abstraction I called "SURL" (for 'server url') here would ev
 full blown programming language and application server in the subsequenst projects RSL and Granite
 Foundation (RSL 2).
 
+## this is old junk
+
+but it's here because I wrote it. FYI.
+

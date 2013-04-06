@@ -1,0 +1,33 @@
+#!/bin/sh
+echo "Content-type: text/html"
+echo
+
+echo "<title>The Board</title>"
+echo "<body bgcolor=C0C0C0 text=003000>"
+# echo "<center><h1>The Board</h1><hr></center>"
+echo "<center><img src=\"/gf/the_board/the-board.gif\"></center>"
+echo "<p>"
+
+cat /www/htdocs/bboard.html
+
+echo "<p><hr>"
+echo "<center><table border=3 cellpadding=3>"
+echo "<tr><td></td>"
+echo "<td align=center>"
+
+# echo "<font size=6>"
+# echo "<a href=\"add-comments\">Add your comments</a></font><br></td>"
+echo "<a href=\"add-comments\">"
+echo "<img border=0 src=\"/gf/the_board/add-your-comments.gif\"></a>"
+echo "<br></td>"
+
+# echo "<tr><td><a href=\"about_the_board.html\">About the board</a><br></td>"
+
+# echo "<td align=center><a href=\"about_the_board.html\">"
+# echo "<img border=0 src=\"/gf/the_board/about-the-board.gif\"></a><br></td>"
+
+# echo "<td align=center><a href=\"metaURL\">metaURL</a></td>"
+echo "<td><a href=\"metaURL\">"
+echo "<img border=0 src=\"/gf/the_board/metaurl-index.gif\"></a></td>"
+
+echo "<td></td></tr></table></center><p>"
